@@ -63,6 +63,9 @@ module ActiveRecord
             multi_parameter_attributes << [ k, v ]
           elsif v.is_a?(Hash)
             nested_parameter_attributes << [ k, v ]
+          elsif v.is_a?(ActionController::Parameters)
+            # TODO: to_unsafe_h should be replaced with to_h when strong params will be required
+            nested_parameter_attributes << [ k, v.to_unsafe_h ]
           else
             _assign_attribute(k, v)
           end
